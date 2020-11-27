@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "request": "^2.88.2"
+  },
+  "dependencies": {
+    "ccxt": "^1.38.20"
   }
 }
