@@ -3,9 +3,10 @@
 const ccxt = require('ccxt');
 const key = require('./key');
 
+// 取引所の指定
 let bitflyer = new ccxt.bitflyer(key)
 
-const interval = 300;
+const interval = 30000;
 const records = [];
 const orderPrise = 500;
 const orderSize = 0.01;
