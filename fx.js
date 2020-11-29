@@ -23,7 +23,7 @@ const sleep = (timer) => {
     // 板情報を取得
     const ticker = await bitflyer.fetchTicker('FX_BTC_JPY');
     records.push(ticker.ask);
-    if (records.length > 3) { //現在、30秒前、60秒前の価格がわかればいいため
+    if (records.length > 3) { //現在、30秒前、60秒前の価格がわかればいい
       records.shift();
     }
     console.log(records);
