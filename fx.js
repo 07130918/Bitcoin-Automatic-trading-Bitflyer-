@@ -32,18 +32,18 @@ const sleep = (timer) => {
       console.log("order price:" + ticker.bid);
       console.log("差分" + ticker.bid - orderInfo.price);
       if (ticker.bid - orderInfo.price > orderPrise) { //現在の価格と買い注文時の価格がorderPrise円より開いていた場合
-        await bitflyer.createMarketSellOrder('FX_BTC_JPY', orderSize);
+        // await bitflyer.createMarketSellOrder('FX_BTC_JPY', orderSize);
         orderInfo = null;
         console.log("利益確定しました。", order)
       } else if (ticker.bid - orderInfo.price < - orderPrise) {
-        await bitflyer.createMarketSellOrder('FX_BTC_JPY', orderSize);
+        // await bitflyer.createMarketSellOrder('FX_BTC_JPY', orderSize);
         orderInfo = null;
         console.log("ロスカットしました。", order)
       }
     } else {
       if (records[2] > records[1] && records[1] > records[0]) { //2>1>0で上昇
         // 買いか売りの注文を出す
-        const order = await bitflyer.createMarketBuyOrder('FX_BTC_JPY', orderSize);
+        // const order = await bitflyer.createMarketBuyOrder('FX_BTC_JPY', orderSize);
         orderInfo = {
           order: order,
           price: ticker.ask,
