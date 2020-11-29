@@ -4,11 +4,9 @@ const key = require('./key');
 
 const btcPrice = [];
 const numberOfSheets = 0.001; //1回の取引で使うBTC枚数
-let sale = btcPrice[3] > btcPrice[2] && btcPrice[2] > btcPrice[1] && btcPrice[1] > btcPrice[0];
-let purchase = btcPrice[3] < btcPrice[2] && btcPrice[2] < btcPrice[1] && btcPrice[1] < btcPrice[0];
 
 const sleep = () => {
-  return new Promise((resolve) => { setTimeout(() => { resolve(); }, 30000); });
+  return new Promise((resolve) => { setTimeout(() => { resolve(); }, 3000); });
 }
 
 (async function () {
@@ -22,7 +20,7 @@ const sleep = () => {
     }
     console.log(btcPrice);
     // 上昇を検知
-    if (sale) {
+    if (btcPrice[3] > btcPrice[2] && btcPrice[2] > btcPrice[1] && btcPrice[1] > btcPrice[0]) {
         try {
           await bitflyer.createMarketSellOrder('BTC/JPY', numberOfSheets);
           console.log(`上昇傾向を検知,${numberOfSheets}BTC売りました`);
@@ -31,7 +29,7 @@ const sleep = () => {
         }
     }
     // 下降を検知
-    if (purchase) {
+    if (btcPrice[3] < btcPrice[2] && btcPrice[2] < btcPrice[1] && btcPrice[1] < btcPrice[0]) {
         try {
           await bitflyer.createMarketBuyOrder('BTC/JPY', numberOfSheets);
           console.log(`下降傾向を検知,${numberOfSheets}BTC買いました`)
