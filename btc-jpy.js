@@ -6,7 +6,7 @@ const btcPrice = [];
 const numberOfSheets = 0.001; //1回の取引で使うBTC枚数
 
 const sleep = () => {
-  return new Promise((resolve) => { setTimeout(() => { resolve(); }, 1000); });
+  return new Promise((resolve) => { setTimeout(() => { resolve(); }, 30000); });
 }
 
 (async function () {
