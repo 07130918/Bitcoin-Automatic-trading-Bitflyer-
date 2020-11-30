@@ -6,15 +6,20 @@ const btcPrice = [];
 const numberOfSheets = 0.001; //1回の取引で使うBTC枚数
 
 const sleep = () => {
-  return new Promise((resolve) => { setTimeout(() => { resolve(); }, 30000); });
+  return new Promise((resolve) => { setTimeout(() => { resolve(); }, 1000); });
 }
 
 (async function () {
   //bitflyer取引所を利用
   let bitflyer = new ccxt.bitflyer(key);
   while (true) {
-    const ticker = await bitflyer.fetchTicker('BTC/JPY');
-    btcPrice.push(ticker.ask);
+    try {
+      const ticker = await bitflyer.fetchTicker('BTC/JPY');
+      btcPrice.push(ticker.ask);
+    } catch (e) {
+      console.log("await bitflyer.fetchTicker('BTC/JPY');できませんでした");
+      return true;
+    }
     if (btcPrice.length > 4) {
       btcPrice.shift();
     }

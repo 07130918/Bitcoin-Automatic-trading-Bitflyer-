@@ -53,10 +53,9 @@ const sleep = (timer) => {
     }
     await sleep(interval);
   }
+})();
 
 
   // pass/redefine custom exchange-specific order params: type, amount, price or whatever
   // use a custom order type
   // bitfinex.createLimitSellOrder ('BTC/USD', 1, 10, { 'type': 'trailing-stop' })
-
-})();
