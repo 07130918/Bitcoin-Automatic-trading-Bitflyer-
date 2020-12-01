@@ -18,9 +18,11 @@ const sleep = () => {
       btcPrice.push(ticker.ask);
     } catch (e) {
       //10時間ほど経つとfetchTicker関数は接続エラーを起こすためエラーハンドリング
-        console.log("await bitflyer.fetchTicker('BTC/JPY');できませんでした");
-        console.log(e);
-        continue;
+      let date = new Date().toLocaleString({ timeZone: 'Asia/Tokyo' });
+      console.log("await bitflyer.fetchTicker('BTC/JPY');でエラー発生", e);
+      console.log(`エラー発生時刻: ${date}`);
+      await sleep();
+      continue;
     }
     if (btcPrice.length > 4) {
       btcPrice.shift();
