@@ -4,7 +4,7 @@ const key = require('./key');
 
 const btcPrice = [];
 const numberOfSheets = 0.001; //1回の取引で使うBTC枚数
-const interval = 60000;
+const interval = 300000;
 
 const sleep = (interval) => {
   return new Promise((resolve) => { setTimeout(() => { resolve(); }, interval); });
