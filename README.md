@@ -1,6 +1,7 @@
 # Bitcoin Automatic trading with Bitflyer
 Bitcoinの自動売買プログラムです。現在は現物取引にのみ対応しておりFX,先物には対応しておりません  
-このプログラムは24時間稼働し続けています　　
+このプログラムは24時間稼働し続けています  
+
 稼働させているファイルはbtc-jpy.jsです  
 
 ![スクリーンショット 2020-11-29 144348](https://user-images.githubusercontent.com/70265286/100534539-5da99000-3253-11eb-9cd6-b62c14f8c919.png)
