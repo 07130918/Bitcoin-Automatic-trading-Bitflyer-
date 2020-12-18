@@ -17,10 +17,10 @@ const sleep = (interval) => {
 (async function () {
   //bitflyer取引所を利用
   let bitflyer = new ccxt.bitflyer(key);
-  const data = () =>{
+  const data = () => {
     const now = new Date().toLocaleString({ timeZone: "Asia/Tokyo" });
     console.log(now);
-  }
+  };
 
   while (true) {
     try {
@@ -41,6 +41,7 @@ const sleep = (interval) => {
           data();
           console.log(`上昇傾向を検知,${numberOfSheets}BTC売りました`);
         } catch (e) {
+          data();
           console.log(
             "上昇傾向を検知しましたがBTCがないため売ることができませんでした"
           );
@@ -57,6 +58,7 @@ const sleep = (interval) => {
           data();
           console.log(`下降傾向を検知,${numberOfSheets}BTC買いました`);
         } catch (e) {
+          data();
           console.log(
             "下降傾向を検知しましたがJPYがないため買うことができませんでした"
           );
@@ -65,7 +67,7 @@ const sleep = (interval) => {
     } catch (e) {
       //10時間ほど経つとfetchTicker関数は接続エラーを起こすためエラーハンドリング
       console.log("await bitflyer.fetchTicker('BTC/JPY');でエラー発生");
-      console.log(`エラー発生時刻: ${date}`);
+      data();
       await sleep(interval);
       continue;
     }
