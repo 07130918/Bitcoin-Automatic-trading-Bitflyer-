@@ -17,7 +17,10 @@ const sleep = (interval) => {
 (async function () {
   //bitflyer取引所を利用
   let bitflyer = new ccxt.bitflyer(key);
-  let date = new Date().toLocaleString({ timeZone: "Asia/Tokyo" });
+  const data = () =>{
+    const now = new Date().toLocaleString({ timeZone: "Asia/Tokyo" });
+    console.log(now);
+  }
 
   while (true) {
     try {
@@ -35,7 +38,8 @@ const sleep = (interval) => {
       ) {
         try {
           await bitflyer.createMarketSellOrder("BTC/JPY", numberOfSheets);
-          console.log(`${date} 上昇傾向を検知,${numberOfSheets}BTC売りました`);
+          data();
+          console.log(`上昇傾向を検知,${numberOfSheets}BTC売りました`);
         } catch (e) {
           console.log(
             "上昇傾向を検知しましたがBTCがないため売ることができませんでした"
@@ -50,7 +54,8 @@ const sleep = (interval) => {
       ) {
         try {
           await bitflyer.createMarketBuyOrder("BTC/JPY", numberOfSheets);
-          console.log(`${date} 下降傾向を検知,${numberOfSheets}BTC買いました`);
+          data();
+          console.log(`下降傾向を検知,${numberOfSheets}BTC買いました`);
         } catch (e) {
           console.log(
             "下降傾向を検知しましたがJPYがないため買うことができませんでした"
