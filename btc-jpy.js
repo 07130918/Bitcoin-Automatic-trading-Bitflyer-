@@ -67,7 +67,7 @@ const sleep = (interval) => {
     } catch (e) {
       //10時間ほど経つとfetchTicker関数は接続エラーを起こすためエラーハンドリング
       console.log("await bitflyer.fetchTicker('BTC/JPY');でエラー発生");
-      data();
+      date();
       await sleep(interval);
       continue;
     }
