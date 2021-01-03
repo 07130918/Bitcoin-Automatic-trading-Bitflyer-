@@ -1,4 +1,4 @@
-# Process.daemon
+Process.daemon
 
 require 'net/http'
 require 'date'
@@ -14,7 +14,7 @@ require './keyRb'
 @key = API_KEY
 @secret = API_SECRET
 
-interval = 1 #秒
+interval = 60 * 4 #秒
 @prices = []
 
 # 時刻管理
