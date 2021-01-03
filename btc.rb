@@ -1,3 +1,5 @@
+# Process.daemon
+
 require 'net/http'
 require 'date'
 require 'uri'
@@ -15,9 +17,10 @@ require './keyRb'
 interval = 1 #秒
 @prices = []
 
+# 時刻管理
 def trade_time
   nowTime = DateTime.now
-  puts "#{nowTime.hour}時#{nowTime.minute}分#{nowTime.second}秒"
+  puts "#{nowTime.hour}時#{nowTime.minute}分#{nowTime.second}秒現在"
 end
 
 # 現在の価格取得
@@ -26,6 +29,36 @@ def get_price
   response = @https.get @uri.request_uri
   response_hash = JSON.parse(response.body)
   return response_hash['mid_price'].floor
+end
+
+# 現在の資産状況を取得
+def assets(coin_name)
+  method = 'GET'
+  @uri.path = '/v1/me/getbalance'
+  text = @timestamp + method + @uri.request_uri
+  sign = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), @secret, text)
+  options =
+    Net::HTTP::Get.new(
+      @uri.request_uri,
+      initheader = {
+        'ACCESS-KEY' => @key,
+        'ACCESS-TIMESTAMP' => @timestamp,
+        'ACCESS-SIGN' => sign,
+      },
+    )
+  response = @https.request(options)
+  response_hash = JSON.parse(response.body)
+  amount = response_hash.find { |n| n['currency_code'] == coin_name }['amount']
+  return coin_name, amount
+end
+
+# 総資産(BTC,JPY,BTC+JPY)
+def jpy_conversion
+  b_name, b_amount = assets('BTC')
+  j_name, j_amount = assets('JPY')
+  puts "#{b_name}: #{b_amount}枚"
+  puts "#{j_name}: #{j_amount.to_i}円"
+  puts "日本円換算の総資産は #{(get_price * b_amount + j_amount).to_i}円 です"
 end
 
 # オーダーを出す(BUYorSELL, BTC枚数)
@@ -66,35 +99,12 @@ def first_order(order, size)
   # 取引失敗
   if response_status['status'] == -200
     if order == 'SELL'
-      puts '残高不足'
       puts "現在BTC#{size}枚売れるほどBTCを持っていません"
     else
-      order == 'BUY'
-      puts '残高不足'
+      #買えない状況
       puts "現在BTC#{size}枚買えるほどJPYを持っていません"
     end
   end
-end
-
-# 現在の資産状況
-def assets(coin_name)
-  method = 'GET'
-  @uri.path = '/v1/me/getbalance'
-  text = @timestamp + method + @uri.request_uri
-  sign = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), @secret, text)
-  options =
-    Net::HTTP::Get.new(
-      @uri.request_uri,
-      initheader = {
-        'ACCESS-KEY' => @key,
-        'ACCESS-TIMESTAMP' => @timestamp,
-        'ACCESS-SIGN' => sign,
-      },
-    )
-  response = @https.request(options)
-  response_hash = JSON.parse(response.body)
-  amount = response_hash.find { |n| n['currency_code'] == coin_name }['amount']
-  puts "#{coin_name}資産 #{amount}"
 end
 
 # 状況を判断して売るか買う関数
@@ -106,11 +116,10 @@ def buy_or_sell
       first_order('SELL', '0.001')
     rescue => e
       puts e
-      puts 'buy_or_sell SELLでエラー'
+      puts 'buy_or_sell関数 SELLでエラー'
     ensure
       trade_time
-      assets('BTC')
-      assets('JPY')
+      jpy_conversion
     end
   end
 
@@ -124,8 +133,7 @@ def buy_or_sell
       puts 'buy_or_sell BUYでエラー'
     ensure
       trade_time
-      assets('BTC')
-      assets('JPY')
+      jpy_conversion
     end
   end
 end
