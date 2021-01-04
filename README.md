@@ -2,9 +2,12 @@
 Bitcoinの自動売買プログラムです。現在は現物取引にのみ対応しておりFX,先物には対応しておりません  
 このプログラムは24時間稼働し続けています  
 
-稼働させているファイルはbtc-jpy.jsです  
+稼働させているファイルはbtc.rbです  
 
 ![スクリーンショット 2020-11-29 144348](https://user-images.githubusercontent.com/70265286/100534539-5da99000-3253-11eb-9cd6-b62c14f8c919.png)
+  
+**Ruby**  
+- version 2.7.2  
   
 **npm**  
 - ccxt <https://github.com/ccxt/ccxt>  
